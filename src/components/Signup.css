@@ -1,0 +1,17 @@
+.signup-cnt{
+    display: flex;
+    justify-content: center;
+}
+.signup-card{
+    margin-top: 3%;
+    width: 27vw;
+}
+.Signup-img{
+    display: flex;
+    justify-content: center;
+    height: 7.2vw;
+}
+.image{
+    width: 100%;
+    height: 100%;
+}

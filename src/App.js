@@ -1,10 +1,15 @@
+// import { Router } from 'react-router-dom';
+// import { Router } from 'react-router-dom';
 import './App.css';
+import Signup from './components/Signup.jsx'
+import { BrowserRouter } from 'react-router-dom';
+
 
 function App() {
   return (
-    <>
-      <h1>Hello</h1>
-    </>
+    <BrowserRouter>
+      <Signup/>
+    </BrowserRouter>
   );
 }
 
