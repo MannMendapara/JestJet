@@ -1,0 +1,15 @@
+.Login-cnt{
+    display: flex;
+    justify-content: center;
+}
+.Login-card{
+    margin-top: 10%;
+    width: 27vw;
+}
+
+.slider-card{
+    margin-top: 10%;
+    width: 15.15vw;
+    margin-right: 1rem;
+}
+

@@ -4,13 +4,25 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import "./Signup.css";
-import SignupGlasses from "./assets/signup_glasses.jpg";
+import "./Login.css";
+import image1 from './assets/1.jpg'
+import image2 from './assets/2.jpg'
+import image3 from './assets/3.jpg'
+import image4 from './assets/4.jpg'
+import image5 from './assets/5.jpg'
+// import SignupGlasses from "./assets/signup_glasses.jpg";
+import {
+  CarouselProvider,
+  Slider,
+  Slide,
+  Image
+} from "pure-react-carousel";
+import "pure-react-carousel/dist/react-carousel.es.css";
 // import styled from "@emotion/styled";
 import { makeStyles } from "@material-ui/core/styles";
-import { Alert, Box } from "@mui/material";
+import { Alert } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+// import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 // import { CenterFocusStrong } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
@@ -35,23 +47,40 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-export default function Signup() {
+export default function Login() {
   const classes = useStyle();
 
   return (
-    <div className="signup-cnt">
-      <div className="signup-card">
+    <div className="Login-cnt">
+      <div className="slider-card">
+        <div className="slider-wrapper" variant="outlined">
+          <CarouselProvider
+            naturalSlideWidth={100}
+            naturalSlideHeight={125}
+            totalSlides={5}
+            isPlaying={true} // Set isPlaying to true for auto slide
+            interval="2800"
+          >
+            <Slider>
+              <Slide index={0}><Image className="slider-img" src={image1}/></Slide>
+              <Slide index={1}><Image className="slider-img" src={image2}/></Slide>
+              <Slide index={2}><Image className="slider-img" src={image3}/></Slide>
+              <Slide index={3}><Image className="slider-img" src={image4}/></Slide>
+              <Slide index={4}><Image className="slider-img" src={image5}/></Slide>
+            </Slider>
+          </CarouselProvider>
+      </div>
+      </div>
+
+      <div className="Login-card">
         <Card variant="outlined">
-          <div className="Signup-img">
-            <img src={SignupGlasses} alt=" " className="image" />
-          </div>
           <CardContent>
             <div
               className="signuptxt-cnt"
               style={{ display: "flex", justifyContent: "center" }}
             >
               <Typography variant="subtitle" className={classes.signupText}>
-                Signup to Memas
+                Login to Memas
               </Typography>
             </div>
             {true && (
@@ -69,44 +98,23 @@ export default function Signup() {
             />
             <TextField
               id="standard-basic"
-              label="email"
-              variant="standard"
-              fullWidth={true}
-              margin="dense"
-              size="small"
-            />
-            <TextField
-              id="standard-basic"
               label="Password"
               variant="standard"
               fullWidth={true}
               margin="dense"
               size="small"
             />
-            <Box m={2}>
-              <Button
-                variant="outlined"
-                startIcon={<CloudUploadIcon />}
-                fullWidth={true}
-                color="secondary"
-                component="label"
-              >
-                <input type="file" accept="image/*" hidden />
-                Upload profile picture
-              </Button>
-            </Box>
             <CardActions>
-            <Button variant="contained" fullWidth={true}>Sign Up</Button>
+              <Button variant="contained" fullWidth={true}>
+                Login
+              </Button>
             </CardActions>
-            <div variant="subtitle" className={classes.termsandcondition}>
-              All the terms and conditions apply
-            </div>
           </CardContent>
         </Card>
         <div className={classes.haveanaccount}>
-          Having an account?
+          Don't Have an account?
           <Link style={{ textDecoration: "none" }} to="">
-            Login
+            &nbsp;Signup
           </Link>
         </div>
       </div>
