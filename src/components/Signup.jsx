@@ -12,6 +12,9 @@ import { Alert, Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { AuthContext } from "../Context/AuthContext";
+import { storage,db } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc } from "firebase/firestore";
 
 const useStyles = makeStyles((theme) => ({
   signupText: {
@@ -50,21 +53,70 @@ export default function Signup() {
       setError("Please upload a profile image first");
       setTimeout(() => {
         setError("");
-      }, 3800);
+      }, 5000); // error remove from display after some time
       return;
     }
 
     try {
+      // For the signup for user
+      setError("");
       setLoading(true);
       const userObj = await signup(email, password);
       const uid = userObj.user.uid;
       console.log(uid);
       setLoading(false);
+
+      // for storing the profile picture in FireStorage
+      const storageRef = ref(storage, `/users/${uid}/ProfileImage`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Handle progress updates or other snapshot changes
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload progress: ${progress}%`);
+        },
+        (error) => {
+          // Handle unsuccessful upload
+          setError(error);
+          setTimeout(() => {
+            setError("");
+          }, 5000);
+          setLoading(false);
+          return;
+        },
+        async () => {
+          // Handle successful upload
+          console.log("Upload completed!");
+
+          // Get the download URL
+          try {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            console.log("Download URL:", downloadURL);
+
+            // Store the download URL in the database
+            const userRef = doc(db, "users", uid);
+            await setDoc(
+              userRef,
+              { profileImage: downloadURL },
+              { merge: true }
+            );
+            console.log("Download URL stored in the database!");
+            
+          } catch (error) {
+            console.error(
+              "Error getting download URL or storing it in the database:",
+              error
+            );
+          }
+        }
+      );
     } catch (error) {
       setError(error.message);
       setTimeout(() => {
         setError("");
-      }, 3800);
+      }, 5000);
       setLoading(false);
     }
   };
