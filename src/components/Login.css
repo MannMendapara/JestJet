@@ -4,12 +4,18 @@
 }
 .Login-card{
     margin-top: 13%;
-    width: 27vw;
+    width: 25vw;
 }
 
 .slider-card{
     margin-top: 13%;
-    width: 15.15vw;
+    width: 12.25vw;
     margin-right: 1rem;
 }
+
+Alert{
+    font-size: 1rem;
+}
+
+
 

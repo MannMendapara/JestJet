@@ -1,21 +1,31 @@
+// react imports
 import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+
+// css imports
+import "./Signup.css";
+
+// material ui imports
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import "./Signup.css";
 import SignupGlasses from "./assets/signup_glasses.jpg";
 import { makeStyles } from "@material-ui/core/styles";
 import { Alert, Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { AuthContext } from "../Context/AuthContext";
-import { storage,db } from "../firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc, setDoc } from "firebase/firestore";
 
+//context imports
+import { AuthContext } from "../Context/AuthContext";
+
+// firebase imports
+import { storage, db } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+
+// css in form of makeStyle
 const useStyles = makeStyles((theme) => ({
   signupText: {
     textAlign: "center",
@@ -37,23 +47,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Signup() {
-  const classes = useStyles();
+  const classes = useStyles(); // Through this we can access all the css of use style.
 
+  // States
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const history = useNavigate();
+  const navigation = useNavigate();
   const { signup } = useContext(AuthContext);
 
+  // on click of Sign-up button
   const handleClick = async () => {
     if (file === null) {
       setError("Please upload a profile image first");
       setTimeout(() => {
         setError("");
-      }, 5000); // error remove from display after some time
+      }, 4000); // error remove from display after some time
       return;
     }
 
@@ -82,7 +94,7 @@ export default function Signup() {
           setError(error);
           setTimeout(() => {
             setError("");
-          }, 5000);
+          }, 4000);
           setLoading(false);
           return;
         },
@@ -99,11 +111,16 @@ export default function Signup() {
             const userRef = doc(db, "users", uid);
             await setDoc(
               userRef,
-              { profileImage: downloadURL },
+              {
+                Fullname: name,
+                userID: uid,
+                emailID: email,
+                profileImage: downloadURL,
+                timestamp: serverTimestamp(),
+              },
               { merge: true }
             );
-            console.log("Download URL stored in the database!");
-            
+            navigation("/login"); 
           } catch (error) {
             console.error(
               "Error getting download URL or storing it in the database:",
@@ -116,7 +133,7 @@ export default function Signup() {
       setError(error.message);
       setTimeout(() => {
         setError("");
-      }, 5000);
+      }, 4000);
       setLoading(false);
     }
   };
@@ -145,6 +162,7 @@ export default function Signup() {
             <TextField
               id="standard-basic"
               label="Name"
+              type="text"
               variant="standard"
               fullWidth={true}
               margin="dense"
@@ -155,6 +173,7 @@ export default function Signup() {
             <TextField
               id="standard-basic"
               label="Email"
+              type="email"
               variant="standard"
               fullWidth={true}
               margin="dense"
@@ -165,6 +184,7 @@ export default function Signup() {
             <TextField
               id="standard-basic"
               label="Password"
+              type="Password"
               variant="standard"
               fullWidth={true}
               margin="dense"
@@ -188,6 +208,7 @@ export default function Signup() {
                     setFile(e.target.files[0]);
                   }}
                 />
+                {/* here the input is wraps in the button called upload */}
                 Upload profile picture
               </Button>
             </Box>
@@ -195,7 +216,7 @@ export default function Signup() {
               <Button
                 variant="contained"
                 fullWidth={true}
-                disabled={loading}
+                disabled={loading} // while loading is true button don't work
                 onClick={handleClick}
               >
                 Sign Up
@@ -209,6 +230,8 @@ export default function Signup() {
         <div className={classes.haveanaccount}>
           Having an account?&nbsp;
           <Link style={{ textDecoration: "none" }} to="/login">
+            {" "}
+            {/* For navigating to the login page */}
             Login
           </Link>
         </div>
