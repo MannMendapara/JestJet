@@ -44,6 +44,19 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     marginTop: "2px",
   },
+
+  uploadprogress: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#9b59b6",
+    height : "34px",
+    width : "91%",
+    borderRadius : "5px",
+    fontSize: "1rem",
+    fontWeight : "bold",
+    color : "white"
+  },
 }));
 
 export default function Signup() {
@@ -55,6 +68,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigate();
   const { signup } = useContext(AuthContext);
@@ -79,6 +93,7 @@ export default function Signup() {
       setLoading(false);
 
       // for storing the profile picture in FireStorage
+      setUploadProgress(2)  
       const storageRef = ref(storage, `/users/${uid}/ProfileImage`);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
@@ -87,7 +102,7 @@ export default function Signup() {
           // Handle progress updates or other snapshot changes
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload progress: ${progress}%`);
+          setUploadProgress(progress);  // for displaying the uploading percentage
         },
         (error) => {
           // Handle unsuccessful upload
@@ -120,7 +135,7 @@ export default function Signup() {
               },
               { merge: true }
             );
-            navigation("/login"); 
+            navigation("/login");
           } catch (error) {
             console.error(
               "Error getting download URL or storing it in the database:",
@@ -192,26 +207,35 @@ export default function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Box m={2}>
-              <Button
-                variant="outlined"
-                startIcon={<CloudUploadIcon />}
-                fullWidth={true}
-                color="secondary"
-                component="label"
-              >
-                <input
-                  type="file"
-                  accept="image/*"
-                  hidden
-                  onChange={(e) => {
-                    setFile(e.target.files[0]);
-                  }}
-                />
-                {/* here the input is wraps in the button called upload */}
-                Upload profile picture
-              </Button>
-            </Box>
+            {uploadProgress === 0 ? (
+              <Box m={2}>
+                <Button
+                  variant="outlined"
+                  startIcon={<CloudUploadIcon />}
+                  fullWidth={true}
+                  color="secondary"
+                  component="label"
+                >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    hidden
+                    onChange={(e) => {
+                      setFile(e.target.files[0]);
+                    }}
+                  />
+                  {/* here the input is wraps in the button called upload */}
+                  Upload profile picture
+                </Button>
+              </Box>
+            ) : (
+              <Box m={2} className={classes.uploadprogress}>
+                <div className="upload">
+                  Uploading {uploadProgress.toFixed(0)}%
+                </div>
+              </Box>
+            )}
+
             <CardActions>
               <Button
                 variant="contained"
@@ -230,7 +254,6 @@ export default function Signup() {
         <div className={classes.haveanaccount}>
           Having an account?&nbsp;
           <Link style={{ textDecoration: "none" }} to="/login">
-            {" "}
             {/* For navigating to the login page */}
             Login
           </Link>
