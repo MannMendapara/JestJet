@@ -1,0 +1,10 @@
+.cnt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.comp {
+    width: 50%;
+}

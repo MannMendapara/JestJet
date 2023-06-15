@@ -16,6 +16,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Alert, Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import LinearProgress from "@mui/material/LinearProgress";
 
 //context imports
 import { AuthContext } from "../Context/AuthContext";
@@ -45,22 +46,13 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "2px",
   },
 
-  uploadprogress: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#9b59b6",
-    height : "34px",
-    width : "91%",
-    borderRadius : "5px",
-    fontSize: "1rem",
-    fontWeight : "bold",
-    color : "white"
+  loading: {
+    width: "100%",
+    borderRadius: "5px",
   },
 }));
 
 export default function Signup() {
-  
   const classes = useStyles(); // Through this we can access all the css of use style.
 
   // States
@@ -69,7 +61,6 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigate();
   const { signup } = useContext(AuthContext);
@@ -90,20 +81,14 @@ export default function Signup() {
       setLoading(true);
       const userObj = await signup(email, password);
       const uid = userObj.user.uid;
-      console.log(uid);
-      setLoading(false);
 
       // for storing the profile picture in FireStorage
-      setUploadProgress(2)  
       const storageRef = ref(storage, `/users/${uid}/ProfileImage`);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(
         "state_changed",
         (snapshot) => {
           // Handle progress updates or other snapshot changes
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setUploadProgress(progress);  // for displaying the uploading percentage
         },
         (error) => {
           // Handle unsuccessful upload
@@ -116,7 +101,6 @@ export default function Signup() {
         },
         async () => {
           // Handle successful upload
-          console.log("Upload completed!");
 
           // Get the download URL
           try {
@@ -136,8 +120,10 @@ export default function Signup() {
               },
               { merge: true }
             );
+            setLoading(false);
             navigation("/login");
           } catch (error) {
+            setLoading(false);
             console.error(
               "Error getting download URL or storing it in the database:",
               error
@@ -208,7 +194,7 @@ export default function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            {uploadProgress === 0 ? (
+            {loading === false ? (
               <Box m={2}>
                 <Button
                   variant="outlined"
@@ -230,11 +216,9 @@ export default function Signup() {
                 </Button>
               </Box>
             ) : (
-              <Box m={2} className={classes.uploadprogress}>
-                <div className="upload">
-                  Uploading {uploadProgress.toFixed(0)}%
-                </div>
-              </Box>
+              <div className={classes.loading}>
+                <LinearProgress color="primary" style={{margin: "10px 0", }}/>
+              </div>
             )}
 
             <CardActions>

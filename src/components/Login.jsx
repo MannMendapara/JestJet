@@ -38,7 +38,7 @@ const useStyle = makeStyles((theme) => ({
 
   alert: {
     marginTop: "8px",
-    fontSize: "20px",
+    fontSize: "1rem",
   },
   termsandcondition: {
     textAlign: "center",
