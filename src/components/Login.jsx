@@ -28,6 +28,7 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 // css imports
 import "./Login.css";
 
+// css object for styling
 const useStyle = makeStyles((theme) => ({
   signupText: {
     textAlign: "center",
@@ -54,7 +55,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { login } = useContext(AuthContext);
   const classes = useStyle();

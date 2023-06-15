@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Signup() {
+  
   const classes = useStyles(); // Through this we can access all the css of use style.
 
   // States
