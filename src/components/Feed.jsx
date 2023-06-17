@@ -1,20 +1,48 @@
-// React imports
-import React, { useContext } from "react";
+//react imports
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// Context imports
+//firebase imports
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase";
+//context imports
 import { AuthContext } from "../Context/AuthContext";
-// Component imports
+//components imports
 import UploadFile from "./UploadFile";
-// css imports
-import './Feed.css'
+//css imports
+import "./Feed.css";
 
 export default function Feed() {
   const navigation = useNavigate();
+  //states
+  const [userData, setUserData] = useState("");
 
-  const { logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+
+  useEffect(() => {
+    const getUserData = async () => {
+      // check if user is exist or not if we don't check than it gives an error can not read properties of undefine
+      if (user) {
+        try {
+          // to get the doc of given id
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            setUserData(docSnap.data()); 
+          } else {
+            console.log("Data not found");
+          }
+        } catch (error) {
+          console.error("Error in useEffect:", error);
+        }
+      }
+    };
+
+    getUserData(); // called this function for the cleanup
+  }, [user]);
 
   const handleLogout = async () => {
-    // For the logout
+    // for the logout
     await logout();
     navigation("/login");
   };
@@ -24,9 +52,10 @@ export default function Feed() {
       <div className="cnt">
         <div className="comp">
           <h1>Feed</h1>
-          <button onClick={handleLogout}>logout</button>
+          <button onClick={handleLogout}>Logout</button>
         </div>
-        <UploadFile />
+        {/* pass userdata to component */}
+        <UploadFile user={userData} /> 
       </div>
     </>
   );

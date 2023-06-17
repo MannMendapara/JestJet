@@ -81,7 +81,8 @@ export default function Signup() {
       setLoading(true);
       const userObj = await signup(email, password);
       const uid = userObj.user.uid;
-
+      setLoading(false);
+      navigation("/login");
       // for storing the profile picture in FireStorage
       const storageRef = ref(storage, `/users/${uid}/ProfileImage`);
       const uploadTask = uploadBytesResumable(storageRef, file);
@@ -96,7 +97,6 @@ export default function Signup() {
           setTimeout(() => {
             setError("");
           }, 4000);
-          setLoading(false);
           return;
         },
         async () => {
@@ -117,13 +117,11 @@ export default function Signup() {
                 emailID: email,
                 profileImage: downloadURL,
                 timestamp: serverTimestamp(),
+                postID : 0,
               },
               { merge: true }
             );
-            setLoading(false);
-            navigation("/login");
           } catch (error) {
-            setLoading(false);
             console.error(
               "Error getting download URL or storing it in the database:",
               error
@@ -217,7 +215,7 @@ export default function Signup() {
               </Box>
             ) : (
               <div className={classes.loading}>
-                <LinearProgress color="primary" style={{margin: "10px 0", }}/>
+                <LinearProgress color="primary" style={{ margin: "10px 0" }} />
               </div>
             )}
 

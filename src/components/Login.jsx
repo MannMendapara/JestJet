@@ -1,7 +1,7 @@
 // react imports
 import * as React from "react";
 import { useContext, useState } from "react";
-import { useNavigate, Link, Navigate } from "react-router-dom";
+import { useNavigate, Link, } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
 
 // material ui imports

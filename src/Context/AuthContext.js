@@ -1,8 +1,10 @@
+// React imports
 import React, { useState, useEffect } from "react";
+// firebase imports
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
-export const AuthContext = React.createContext('');
+export const AuthContext = React.createContext(''); // Creating an context
 
 export function AuthProvider({children}) {
 
@@ -19,6 +21,7 @@ export function AuthProvider({children}) {
 
     async function logout() {
         await auth.signOut();
+        setUser(null)
     }
 
     useEffect(() => {
