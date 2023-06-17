@@ -8,6 +8,7 @@ import { db } from "../firebase";
 import { AuthContext } from "../Context/AuthContext";
 //components imports
 import UploadFile from "./UploadFile";
+import Posts from "./Posts";
 //css imports
 import "./Feed.css";
 
@@ -20,6 +21,10 @@ export default function Feed() {
 
   useEffect(() => {
     const getUserData = async () => {
+
+      if(user === null){
+        navigation("/login")
+      }
       // check if user is exist or not if we don't check than it gives an error can not read properties of undefine
       if (user) {
         try {
@@ -56,6 +61,7 @@ export default function Feed() {
         </div>
         {/* pass userdata to component */}
         <UploadFile user={userData} /> 
+        <Posts user={userData} />
       </div>
     </>
   );

@@ -9,14 +9,20 @@ import LinearProgress from "@mui/material/LinearProgress";
 // firebase imports
 import { storage, db } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { doc, setDoc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  serverTimestamp,
+  updateDoc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
 
 function UploadFile(props) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleChange = async (file) => {
-
     if (file === null) {
       setError("Please select a file first");
       setTimeout(() => {
@@ -40,11 +46,13 @@ function UploadFile(props) {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log("Upload is " + progress + "% done");
       },
       (error) => {
-        setError(error);
+        const errorMessage = error.toString();
+        setError(errorMessage);
         setTimeout(() => {
           setError("");
         }, 3000);
@@ -53,8 +61,8 @@ function UploadFile(props) {
       async () => {
         try {
           const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-          const userRef = doc(db, "posts", uid);
-          setDoc(userRef, {
+          const userRef = collection(db, "posts");
+          const dataRef = await addDoc(userRef, {
             likes: [],
             comments: [],
             pId: uid,
@@ -63,24 +71,19 @@ function UploadFile(props) {
             uProfile: props.user.profileImage,
             uId: props.user.userID,
             createdAt: serverTimestamp(),
-          })
-            .then(async () => {
-              const userRef = doc(db, "users", props.user.userID);
-              updateDoc(userRef, {
-                postID:
-                  props.user.postID === 0
-                    ? [uid]
-                    : [...props.user.postID, uid],
-              }).then(() => {
-                console.log("update is successful") 
-                setLoading(false);
-              })
-            })
-            .catch((error) => {
-              setError(error);
-            });
+          });
+          const userDocRef = doc(db, "users", props.user.userID);
+          await updateDoc(userDocRef, {
+            postID:
+              props.user.postID === 0
+                ? [uid]
+                : [...props.user.postID, uid],
+          });
+          setLoading(false);
         } catch (error) {
-          setError(error);
+          const errorMessage = error.toString();
+          setError(errorMessage);
+          setLoading(false);
         }
       }
     );
