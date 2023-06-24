@@ -1,9 +1,8 @@
 // react imports
 import * as React from "react";
 import { useContext, useState } from "react";
-import { useNavigate, Link, } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "../Context/AuthContext";
-
 // material ui imports
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -12,19 +11,17 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Alert } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { makeStyles } from "@material-ui/core/styles";
-
+import { makeStyles } from "@material-ui/core/styles"; 
+import CircularProgress from '@mui/material/CircularProgress';
 // image imports
 import image1 from "./assets/1.jpg";
 import image2 from "./assets/2.jpg";
 import image3 from "./assets/3.jpg";
 import image4 from "./assets/4.jpg";
 import image5 from "./assets/5.jpg";
-
 // imports for image slider
 import { CarouselProvider, Slider, Slide, Image } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
-
 // css imports
 import "./Login.css";
 
@@ -154,13 +151,17 @@ export default function Login() {
               }}
             />
             <CardActions>
-              <Button
-                variant="contained"
-                fullWidth={true}
-                onClick={HandleLogin}
-              >
-                Login
-              </Button>
+              {loading === true ? 
+                    <CircularProgress/>
+               : (
+                <Button
+                  variant="contained"
+                  fullWidth={true}
+                  onClick={HandleLogin}
+                >
+                  Login
+                </Button>
+              )}
             </CardActions>
           </CardContent>
         </Card>
