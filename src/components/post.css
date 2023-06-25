@@ -1,0 +1,23 @@
+.video-cnt {
+    height: 80vh;
+    width: 355px;
+    border-radius: 20px;
+    background-color: rgb(106, 98, 98);
+    overflow: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none;
+}
+
+.video-cnt::-webkit-scrollbar{
+    display: none;
+}
+
+.videos {
+    position: relative;
+}
+
+.fa{
+    position: absolute;
+    bottom: 6%;
+    left: 8%;
+}

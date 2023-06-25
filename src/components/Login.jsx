@@ -11,8 +11,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Alert } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { makeStyles } from "@material-ui/core/styles"; 
-import CircularProgress from '@mui/material/CircularProgress';
+import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@mui/material/CircularProgress";
 // image imports
 import image1 from "./assets/1.jpg";
 import image2 from "./assets/2.jpg";
@@ -151,9 +151,11 @@ export default function Login() {
               }}
             />
             <CardActions>
-              {loading === true ? 
-                    <CircularProgress/>
-               : (
+              {loading === true ? (
+                <div style={{marginLeft:"138px"}}>
+                  <CircularProgress />
+                </div>
+              ) : (
                 <Button
                   variant="contained"
                   fullWidth={true}
