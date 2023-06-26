@@ -8,6 +8,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Avatar from "@mui/material/Avatar";
 // Components imports
 import Video from "./video";
+import Like from "./Like";
 //css imports
 import "./post.css";
 
@@ -32,7 +33,6 @@ function Posts(props) {
     };
     getPosts();
   }, []);
-  console.log(props.user);
   return (
     <>
       {post === null || props.user === null ? (
@@ -51,6 +51,7 @@ function Posts(props) {
                     />
                     <h4 style={{ marginTop: "4px", color: "white" }}>{props.user.Fullname}</h4>
                   </div>
+                  <Like userData={props.user} postData={post}/>
                 </div>
               </React.Fragment>
             );

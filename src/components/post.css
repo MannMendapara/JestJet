@@ -2,7 +2,7 @@
     height: 80vh;
     width: 355px;
     border-radius: 20px;
-    background-color: rgb(106, 98, 98);
+    background-color: rgb(148, 148, 148);
     overflow: scroll;
     scroll-snap-type: y mandatory;
     scrollbar-width: none;
@@ -20,4 +20,19 @@
     position: absolute;
     bottom: 6%;
     left: 8%;
+}
+
+.icon-styling {
+    position: absolute;
+    bottom: 6%;
+    right: 10%;
+    cursor: pointer;
+}
+
+.liked {
+    color: rgb(211, 100, 100);
+}
+
+.unliked {
+    color: white;
 }
