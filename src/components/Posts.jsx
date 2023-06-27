@@ -5,7 +5,14 @@ import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 // Material ui imports
 import CircularProgress from "@mui/material/CircularProgress";
+import AddCommentIcon from '@mui/icons-material/AddComment';
 import Avatar from "@mui/material/Avatar";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 // Components imports
 import Video from "./video";
 import Like from "./Like";
@@ -15,6 +22,15 @@ import "./post.css";
 function Posts(props) {
   //states
   const [post, setPost] = useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const getPosts = async () => {
@@ -33,6 +49,7 @@ function Posts(props) {
     };
     getPosts();
   }, []);
+
   return (
     <>
       {post === null || props.user === null ? (
@@ -51,7 +68,30 @@ function Posts(props) {
                     />
                     <h4 style={{ marginTop: "4px", color: "white" }}>{props.user.Fullname}</h4>
                   </div>
-                  <Like userData={props.user} postData={post}/>
+                  <Like userData={props.user} postData={post} />
+                  <AddCommentIcon className="commnet-icon" onClick={handleClickOpen} />
+                  <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">
+                      {"Use Google's location service?"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        Let Google help apps determine location. This means sending anonymous
+                        location data to Google, even when no apps are running.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose}>Disagree</Button>
+                      <Button onClick={handleClose} autoFocus>
+                        Agree
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
                 </div>
               </React.Fragment>
             );
