@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 // Css imports
 import "./video.css";
+import { Repeat } from "@material-ui/icons";
 
 function video(props) {
   const handleClick = (e) => {
@@ -22,6 +23,7 @@ function video(props) {
       src={props.src}
       className="video-styling"
       muted="muted"
+      autoPlay="true"
       onClick={handleClick}
       onEnded={handleScroll}
     ></video>

@@ -1,8 +1,8 @@
 .video-cnt {
-    height: 80vh;
+    height: 620px;
     width: 355px;
     border-radius: 20px;
-    background-color: rgb(148, 148, 148);
+    background-color: black;
     overflow: scroll;
     scroll-snap-type: y mandatory;
     scrollbar-width: none;
@@ -43,4 +43,27 @@
     right: 10%;
     cursor: pointer;
     color: white;
+}
+
+.modal-cnt {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.modal-video-cnt {
+    width: 45%;
+    background-color: azure;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-video {
+    width: 56%;
+    margin-top: 3.5px;
+}
+
+.comment-cnt {
+    width: 55%; 
 }

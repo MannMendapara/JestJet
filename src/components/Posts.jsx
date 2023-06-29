@@ -13,6 +13,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import {  CardActionArea, CardActions } from '@mui/material';
 // Components imports
 import Video from "./video";
 import Like from "./Like";
@@ -22,14 +27,14 @@ import "./post.css";
 function Posts(props) {
   //states
   const [post, setPost] = useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(null);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpen = (id) => {
+    setOpen(id);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpen(null);
   };
 
   useEffect(() => {
@@ -60,7 +65,7 @@ function Posts(props) {
             return (
               <React.Fragment key={index}>
                 <div className="videos">
-                  <Video src={post.pUrl} />
+                  <Video src={post.pUrl} className="post-video" />
                   <div className="fa" style={{ display: "flex", gap: "7px" }}>
                     <Avatar
                       src={props.user.profileImage}
@@ -69,28 +74,71 @@ function Posts(props) {
                     <h4 style={{ marginTop: "4px", color: "white" }}>{props.user.Fullname}</h4>
                   </div>
                   <Like userData={props.user} postData={post} />
-                  <AddCommentIcon className="commnet-icon" onClick={handleClickOpen} />
+                  <AddCommentIcon className="commnet-icon" onClick={() => handleClickOpen(post.Pid)} />
                   <Dialog
-                    open={open}
+                    open={open === post.Pid}
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+                    fullWidth="true"
+                    maxWidth="lg"
                   >
-                    <DialogTitle id="alert-dialog-title">
-                      {"Use Google's location service?"}
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-description">
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Disagree</Button>
-                      <Button onClick={handleClose} autoFocus>
-                        Agree
-                      </Button>
-                    </DialogActions>
+                    <div className="modal-cnt">
+                      <div className="modal-video-cnt">
+                        <video src={post.pUrl} autoPlay="true" muted className="modal-video"></video>
+                      </div>
+                      <div className="comment-cnt">
+                        <Card sx={{ maxWidth: 345 }}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              height="140"
+                              image="/static/images/cards/contemplative-reptile.jpg"
+                              alt="green iguana"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="div">
+                                Lizard
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Lizards are a widespread group of squamate reptiles, with over 6,000
+                                species, ranging across all continents except Antarctica
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                            <Button size="small" color="primary">
+                              Share
+                            </Button>
+                          </CardActions>
+                        </Card>
+                        <Card sx={{ maxWidth: 345 }}>
+                          <CardActionArea>
+                            <CardMedia
+                              component="img"
+                              height="140"
+                              image="/static/images/cards/contemplative-reptile.jpg"
+                              alt="green iguana"
+                            />
+                            <CardContent>
+                              <Typography gutterBottom variant="h5" component="div">
+                                Lizard
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                Lizards are a widespread group of squamate reptiles, with over 6,000
+                                species, ranging across all continents except Antarctica
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                          <CardActions>
+                            <Button size="small" color="primary">
+                              Share
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </div>
+                    </div>
+
                   </Dialog>
                 </div>
               </React.Fragment>
