@@ -23,7 +23,7 @@ function video(props) {
       src={props.src}
       className="video-styling"
       muted="muted"
-      autoPlay="true"
+      autoPlay= {Repeat}
       onClick={handleClick}
       onEnded={handleScroll}
     ></video>
