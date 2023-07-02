@@ -121,7 +121,5 @@ function UploadFile(props) {
     </>
   );
 }
-// end of the code.
-// first commit is done
 
 export default UploadFile;

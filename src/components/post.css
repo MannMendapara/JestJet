@@ -24,7 +24,7 @@
 
 .icon-styling {
     position: absolute;
-    bottom: 11%;
+    bottom: 15%;
     right: 10%;
     cursor: pointer;
 }
@@ -59,11 +59,31 @@
     align-items: center;
 }
 
+.likes-count {
+    position: absolute;
+    bottom: 12%;
+    right: 11.7%;
+    color: white;
+}
+
 .modal-video {
     width: 56%;
     margin-top: 3.5px;
+    margin-bottom: 3.5px;
+    border-radius: 5px;
 }
 
 .comment-cnt {
-    width: 55%; 
+    width: 55%;
+    position: relative;
+}
+
+.comment-act-cnt {
+    width: 100%;    
+    display: flex;
+    position: absolute; 
+    bottom: 10px; 
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
 }
