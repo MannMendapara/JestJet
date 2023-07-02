@@ -7,20 +7,12 @@ import { collection, getDocs } from "firebase/firestore";
 import CircularProgress from "@mui/material/CircularProgress";
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import Avatar from "@mui/material/Avatar";
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import {  CardActionArea, CardActions } from '@mui/material';
 // Components imports
 import Video from "./video";
 import Like from "./Like";
+import Comment from "./Comment";
 //css imports
 import "./post.css";
 
@@ -73,72 +65,31 @@ function Posts(props) {
                     />
                     <h4 style={{ marginTop: "4px", color: "white" }}>{props.user.Fullname}</h4>
                   </div>
-                  <Like userData={props.user} postData={post} />
+                  <div>
+                    <Like userData={props.user} postData={post} />
+                    <h4 className="likes-count">{post.likes.length}</h4>
+                  </div>
                   <AddCommentIcon className="commnet-icon" onClick={() => handleClickOpen(post.Pid)} />
                   <Dialog
                     open={open === post.Pid}
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
-                    fullWidth="true"
                     maxWidth="lg"
                   >
                     <div className="modal-cnt">
                       <div className="modal-video-cnt">
-                        <video src={post.pUrl} autoPlay="true" muted className="modal-video"></video>
+                        <video src={post.pUrl} muted className="modal-video" controls autoPlay={true}></video>
                       </div>
                       <div className="comment-cnt">
-                        <Card sx={{ maxWidth: 345 }}>
-                          <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              height="140"
-                              image="/static/images/cards/contemplative-reptile.jpg"
-                              alt="green iguana"
-                            />
-                            <CardContent>
-                              <Typography gutterBottom variant="h5" component="div">
-                                Lizard
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                          <CardActions>
-                            <Button size="small" color="primary">
-                              Share
-                            </Button>
-                          </CardActions>
+                        <Card variant="outlined">
+
                         </Card>
-                        <Card sx={{ maxWidth: 345 }}>
-                          <CardActionArea>
-                            <CardMedia
-                              component="img"
-                              height="140"
-                              image="/static/images/cards/contemplative-reptile.jpg"
-                              alt="green iguana"
-                            />
-                            <CardContent>
-                              <Typography gutterBottom variant="h5" component="div">
-                                Lizard
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                          <CardActions>
-                            <Button size="small" color="primary">
-                              Share
-                            </Button>
-                          </CardActions>
+                        <Card variant="outlined">
+                          <Comment postData={post} userData={props.userData}/>
                         </Card>
                       </div>
                     </div>
-
                   </Dialog>
                 </div>
               </React.Fragment>
