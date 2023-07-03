@@ -76,6 +76,7 @@
 .comment-cnt {
     width: 55%;
     position: relative;
+    /* height: 80vh; */
 }
 
 .comment-act-cnt {
@@ -87,3 +88,15 @@
     justify-content: center;
     align-items: center;
 }
+
+.show-comment-cnt {
+    overflow-y: auto;
+    height: 60vh;
+    max-height: 200px;
+  }
+  
+  .comment-card {
+    margin-top: 10px;
+    overflow-y: auto;
+  }
+  

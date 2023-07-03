@@ -9,7 +9,7 @@ function Like(props) {
     useEffect(() => {
         const check = props.postData.likes.includes(props.userData.userID);
         setLike(check);
-    }, [props.postData]);
+    }, [props.postData,props.userData]);
 
     const handleLike = async () => {
         if (like) {
