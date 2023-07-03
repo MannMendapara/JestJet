@@ -13,6 +13,7 @@ import Card from '@mui/material/Card';
 import Video from "./video";
 import Like from "./Like";
 import Comment from "./Comment";
+import ShowComments from "./ShowComments";
 //css imports
 import "./post.css";
 
@@ -45,7 +46,7 @@ function Posts(props) {
       }
     };
     getPosts();
-  }, []);
+  }, [props.user]);
 
   return (
     <>
@@ -82,11 +83,13 @@ function Posts(props) {
                         <video src={post.pUrl} muted className="modal-video" controls autoPlay={true}></video>
                       </div>
                       <div className="comment-cnt">
-                        <Card variant="outlined">
-
+                        <Card variant="outlined" className="show-comment-cnt">
+                          <div style={{overflow:"hidden"}}>
+                            <ShowComments PostData={post} />
+                          </div>
                         </Card>
-                        <Card variant="outlined">
-                          <Comment postData={post} userData={props.userData}/>
+                        <Card variant="outlined" className="comment-card">
+                          <Comment postData={post} userData={props.user} />
                         </Card>
                       </div>
                     </div>
@@ -102,3 +105,4 @@ function Posts(props) {
 }
 
 export default Posts;
+
