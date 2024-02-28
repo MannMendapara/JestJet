@@ -9,6 +9,7 @@ import { AuthContext } from "../Context/AuthContext";
 //components imports
 import UploadFile from "./UploadFile";
 import Posts from "./Posts";
+import Navbar from "./Navbar";
 //css imports
 import "./Feed.css";
 
@@ -22,7 +23,7 @@ export default function Feed() {
   useEffect(() => {
     const getUserData = async () => {
 
-      if(user === null){
+      if (user === null) {
         navigation("/login")
       }
       // check if user is exist or not if we don't check than it gives an error can not read properties of undefine
@@ -33,7 +34,7 @@ export default function Feed() {
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
-            setUserData(docSnap.data()); 
+            setUserData(docSnap.data());
           } else {
             console.log("Data not found");
           }
@@ -54,13 +55,14 @@ export default function Feed() {
 
   return (
     <>
+      <Navbar userData={userData}/>
       <div className="cnt">
-        <div className="comp">
+        {/* <div className="comp">
           <h1>Feed</h1>
           <button onClick={handleLogout}>Logout</button>
-        </div>
+        </div> */}
         {/* pass userdata to component */}
-        <UploadFile user={userData} /> 
+        <UploadFile user={userData} />
         <Posts user={userData} />
       </div>
     </>
