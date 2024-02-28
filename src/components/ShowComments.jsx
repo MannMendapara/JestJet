@@ -32,11 +32,7 @@ function ShowComments(props) {
             {comments &&
                 comments.map((commentObj, index) => (
                     <div key={index} style={{ display: "flex", marginBottom: "3px" }}>
-                        <img
-                            src={commentObj.uProfileImg}
-                            style={{ height: "25px", width: "25px", borderRadius: "50%", marginRight: "5px" }}
-                            alt="image"
-                        />
+                        <img src={commentObj.uProfileImg} style={{ height: "25px", width: "25px", borderRadius: "50%", marginRight: "5px" }} alt="..." />
                         <p style={{ marginTop: "1px", fontWeight: "bold" }}>{commentObj.text}</p>
                     </div>
                 ))}

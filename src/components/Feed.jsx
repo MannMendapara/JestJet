@@ -32,7 +32,6 @@ export default function Feed() {
           // to get the doc of given id
           const docRef = doc(db, "users", user.uid);
           const docSnap = await getDoc(docRef);
-
           if (docSnap.exists()) {
             setUserData(docSnap.data());
           } else {
@@ -43,9 +42,8 @@ export default function Feed() {
         }
       }
     };
-
     getUserData(); // called this function for the cleanup
-  }, [user]);
+  }, [user,navigation]);
 
   const handleLogout = async () => {
     // for the logout

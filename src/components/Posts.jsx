@@ -35,18 +35,22 @@ function Posts(props) {
       const collectionRef = collection(db, "posts");
       try {
         const querySnapshot = await getDocs(collectionRef);
-        const parr = [];
-        querySnapshot.docs.forEach((doc) => {
-          const data = { Pid: doc.id, ...doc.data() };
-          parr.push(data);
-        });
+        const parr = querySnapshot.docs.map((doc) => ({
+          Pid: doc.id,
+          ...doc.data(),
+        }));
         setPost(parr);
       } catch (error) {
         console.error("Error fetching data from Firestore: ", error);
+        // Log the specific error message
+        console.error("Firestore Error Message: ", error.message);
+        // Set a more informative error message in the state
+        setPost([]);
       }
     };
     getPosts();
-  }, [props.user]);
+  }, [props.user, post]);
+
 
   return (
     <>
@@ -84,7 +88,7 @@ function Posts(props) {
                       </div>
                       <div className="comment-cnt">
                         <Card variant="outlined" className="show-comment-cnt">
-                          <div style={{overflow:"hidden"}}>
+                          <div style={{ overflow: "hidden" }}>
                             <ShowComments PostData={post} />
                           </div>
                         </Card>
