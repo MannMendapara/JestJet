@@ -108,13 +108,13 @@ export default function Navbar({ userData }) {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed" sx={{ background: 'white' }}>
                 <Toolbar>
-                    <div>
-                        <img src={Glasses} alt="Icon" onClick={handleBannerClick} />
+                    <div style={{marginLeft: '4rem'}}>
+                        <img src={Glasses} style={{width:'100%', height:'3rem'}} alt="Icon" onClick={handleBannerClick} />
                     </div>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, color: 'black', alignItems: 'center', marginRight: '4rem' }}>
-                        <HomeIcon onClick={handleBannerClick} sx={{ marginRight: '1.5rem' }} />
-                        <ExploreIcon onClick={handleBannerClick} sx={{ marginRight: '1.5rem' }} />
+                        <HomeIcon onClick={handleBannerClick} sx={{ marginRight: '1.5rem', cursor: 'pointer', height:'2rem', width:'2rem' }} />
+                        <ExploreIcon onClick={handleBannerClick} sx={{ marginRight: '1.5rem', cursor: 'pointer', height:'2rem', width:'2rem' }} />
                         <IconButton
                             size="large"
                             edge="end"
@@ -124,10 +124,10 @@ export default function Navbar({ userData }) {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <div style={{ display: "flex", marginBottom: "3px" }}>
+                            <div style={{ display: "flex", marginBottom: "3px", cursor:'pointer' }}>
                                 <img
                                     src={userData.profileImage}
-                                    style={{ height: "25px", width: "25px", borderRadius: "50%", marginRight: "5px" }}
+                                    style={{ height: "2rem", width: "2rem", borderRadius: "50%", marginRight: "5px" }}
                                     alt="Profile"
                                 />
                             </div>

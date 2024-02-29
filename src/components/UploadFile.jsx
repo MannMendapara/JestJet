@@ -92,7 +92,7 @@ function UploadFile(props) {
   };
 
   return (
-    <>
+    <div style={{marginTop:'5rem', marginBottom:'1rem'}}>
       {error !== "" && typeof error === "string" ? (
         <Alert severity="error">{error}</Alert>
       ) : (
@@ -119,7 +119,7 @@ function UploadFile(props) {
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 
