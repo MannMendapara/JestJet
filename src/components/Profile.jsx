@@ -5,11 +5,31 @@ import { doc, getDoc } from "firebase/firestore";
 import CircularProgress from "@mui/material/CircularProgress";
 import Navbar from './Navbar';
 import { Typography } from '@mui/material';
+import Video from "./video";
+import Like from "./Like";
+import Comment from "./Comment";
+import ShowComments from "./ShowComments";
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import Avatar from "@mui/material/Avatar";
+import Dialog from '@mui/material/Dialog';
+import Card from '@mui/material/Card';
+import "./Profile.css";
+import { Source } from '@mui/icons-material';
 
 function Profile() {
     const { id } = useParams();
     const [userData, setUserData] = useState(null);
     const [Posts, setPosts] = useState(null);
+
+    const [open, setOpen] = useState(null);
+
+    const handleClickOpen = (id) => {
+        setOpen(id);
+    };
+
+    const handleClose = () => {
+        setOpen(null);
+    };
 
     useEffect(() => {
         const getUserData = async () => {
@@ -61,13 +81,48 @@ function Profile() {
                                     <img src={userData.profileImage} alt="Profile" />
                                 </div>
                                 <div className="info">
-                                    <Typography variant="h4">
+                                    <Typography variant="h5">
                                         Email : {userData.emailID}
                                     </Typography>
                                     <Typography variant="h6">
                                         Posts : {userData.postID.length}
                                     </Typography>
-                                </div> 
+                                </div>
+                            </div>
+                            <hr style={{ marginTop: '2rem', marginBottom: '2rem' }} />
+                            <div className="profile-video">
+                                {Posts.map((post, index) => {
+                                    return (
+                                        <React.Fragment key={index}>
+                                            <div className="videos">
+                                                <video src={post.pUrl} className="post-video" onClick={() => handleClickOpen(post.Pid)} />
+                                                <Dialog
+                                                    open={open === post.Pid}
+                                                    onClose={handleClose}
+                                                    aria-labelledby="alert-dialog-title"
+                                                    aria-describedby="alert-dialog-description"
+                                                    maxWidth="lg"
+                                                >
+                                                    <div className="modal-cnt">
+                                                        <div className="modal-video-cnt">
+                                                            <video src={post.pUrl} muted className="modal-video" controls autoPlay={true}></video>
+                                                        </div>
+                                                        <div className="comment-cnt">
+                                                            <Card variant="outlined" className="show-comment-cnt">
+                                                                <div style={{ overflow: "hidden" }}>
+                                                                    <ShowComments PostData={post} />
+                                                                </div>
+                                                            </Card>
+                                                            <Card variant="outlined" className="comment-card">
+                                                                <Comment postData={post} userData={userData} />
+                                                            </Card>
+                                                        </div>
+                                                    </div>
+                                                </Dialog>
+                                            </div>
+                                        </React.Fragment>
+                                    );
+                                })}
                             </div>
                         </div>
                     </>
