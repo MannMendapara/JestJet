@@ -54,10 +54,10 @@ function Profile() {
             if (userData != null) {
                 let parr = [];
                 for (let i = 0; i < userData.postID.length; i++) {
-                    let postdata = doc(db, "posts", userData.postID[i]);
-                    const postSnap = await getDoc(postdata);
+                    let PostData = doc(db, "posts", userData.postID[i]);
+                    const postSnap = await getDoc(PostData);
                     if (postSnap) {
-                        parr.push(postSnap.data());
+                        parr.push({...postSnap.data(),Pid: postSnap.id,});
                     }
                 }
                 setPosts(parr);

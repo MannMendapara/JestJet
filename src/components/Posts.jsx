@@ -62,7 +62,7 @@ function Posts(props) {
             return (
               <React.Fragment key={index}>
                 <div className="videos">
-                  <Video src={post.pUrl} className="post-video" />
+                  <Video src={post.pUrl} className="post-video"/>
                   <div className="fa" style={{ display: "flex", gap: "7px" }}>
                     <Avatar
                       src={props.user.profileImage}
